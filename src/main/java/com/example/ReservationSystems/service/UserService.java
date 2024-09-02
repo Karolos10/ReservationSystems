@@ -1,14 +1,12 @@
 package com.example.ReservationSystems.service;
 
 import com.example.ReservationSystems.model.User;
+import com.example.ReservationSystems.model.UserRol;
+
+import java.util.Set;
 
 public interface UserService {
 
-    public User saveUser(User user) throws Exception;
-
-    public User getUser(String username) throws Exception;
-
-    public void deleteUser(Integer userId);
-
+    void deleteUser(Integer userId);
 
 }

@@ -1,5 +1,6 @@
 package com.example.ReservationSystems.controller;
 
+import com.example.ReservationSystems.dto.ReservationDTO;
 import com.example.ReservationSystems.model.Reservation;
 import com.example.ReservationSystems.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reservations")
-@CrossOrigin("*")
 public class ReservationController {
 
     @Autowired
@@ -21,13 +21,13 @@ public class ReservationController {
     }
 
     @PostMapping
-    public Reservation saveReservation(@RequestBody Reservation reservation) throws Exception {
+    public ReservationDTO saveReservation(@RequestBody ReservationDTO reservation) throws Exception {
         return reservationService.saveReservation(reservation);
     }
 
-    @PostMapping("/cancelar/{reservationId}")
-    public boolean cancelReservation(@PathVariable("reservationId") Integer reservationId) {
-        return reservationService.cancelReservation(reservationId);
+    @PutMapping("/cancelar")
+    public boolean cancelReservation(@RequestBody ReservationDTO reservationDTO) {
+        return reservationService.cancelReservation(reservationDTO.getReservationId());
     }
 
 }

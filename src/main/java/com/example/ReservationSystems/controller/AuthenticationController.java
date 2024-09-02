@@ -1,63 +1,42 @@
 package com.example.ReservationSystems.controller;
 
-import com.example.ReservationSystems.configurations.JwtUtils;
-import com.example.ReservationSystems.model.JwtRequest;
-import com.example.ReservationSystems.model.JwtResponse;
-import com.example.ReservationSystems.service.impl.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ReservationSystems.dto.LoginResponse;
+import com.example.ReservationSystems.dto.LoginUserDto;
+import com.example.ReservationSystems.dto.RegisterUserDto;
+import com.example.ReservationSystems.model.CustomUserDetails;
+import com.example.ReservationSystems.model.User;
+import com.example.ReservationSystems.service.AuthenticationService;
+import com.example.ReservationSystems.service.impl.JwtService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
+    private final JwtService jwtService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationService authenticationService;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @PostMapping("/generate-token")
-    public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
-        try{
-
-            authenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
-
-        }catch (Exception exception) {
-            exception.printStackTrace();
-            throw new Exception("User not found");
-        }
-
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-        String token = this.jwtUtils.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+        this.jwtService = jwtService;
+        this.authenticationService = authenticationService;
     }
 
-    private void authenticar(String username, String password)throws Exception{
-        try{
+    @PostMapping("/signup")
+    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) throws Exception {
+        User registeredUser = authenticationService.signup(registerUserDto);
 
-            authenticationManager.authenticate((new UsernamePasswordAuthenticationToken(username, password)));
+        return ResponseEntity.ok(registeredUser);
+    }
 
-        }catch (DisabledException disabledException){
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
+        CustomUserDetails authenticatedUser = authenticationService.authenticate(loginUserDto);
 
-            throw new Exception("User disabled" + disabledException.getMessage());
+        String jwtToken = jwtService.generateToken(authenticatedUser);
 
-        }catch (BadCredentialsException badCredentialsException){
+        LoginResponse loginResponse = new LoginResponse(jwtToken, jwtService.getExpirationTime());
 
-            throw new Exception("Invalid credentials" + badCredentialsException.getMessage());
-
-        }
+        return ResponseEntity.ok(loginResponse);
     }
 }

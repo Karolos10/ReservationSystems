@@ -1,4 +1,4 @@
-package com.example.ReservationSystems.model;
+/*package com.example.ReservationSystems.model;
 
 public class JwtResponse {
 
@@ -18,4 +18,4 @@ public class JwtResponse {
     public void setToken(String token) {
         this.token = token;
     }
-}
+}*/

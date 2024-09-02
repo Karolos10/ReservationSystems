@@ -1,4 +1,4 @@
-package com.example.ReservationSystems.model;
+/*package com.example.ReservationSystems.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -14,4 +14,4 @@ public class Authority implements GrantedAuthority {
     public String getAuthority() {
         return this.authority;
     }
-}
+}*/

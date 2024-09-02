@@ -1,5 +1,6 @@
 package com.example.ReservationSystems.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
@@ -38,13 +39,16 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "business_id")
+    @JsonIgnore
     private Business business;
 
     @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Comment comment;
 
     public Reservation() {

@@ -1,5 +1,6 @@
 package com.example.ReservationSystems.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ public class Rol {
     private String nameRol;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    @JsonIgnore
     private Set<UserRol> userRols = new HashSet<>();
 
     public Rol() {

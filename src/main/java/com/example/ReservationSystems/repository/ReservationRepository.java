@@ -25,9 +25,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
                     "    start_date, " +
                     "    start_time, " +
                     "    business_id, " +
-                    "    user_id" +
+                    "    user_id " +
                     "FROM " +
-                    "    bookingsystems.reservations r" +
+                    "    bookingsystems.reservations r " +
                     "WHERE " +
                     "    r.user_id = :userId")
     List<Reservation> findByUserId(@Param("userId") Integer userId);
@@ -48,7 +48,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
                     "FROM " +
                     "    bookingsystems.reservations " +
                     "WHERE " +
-                    "    business_id = :businessId" +
+                    "    business_id = :businessId " +
                     "    AND (" +
                     "        (start_date BETWEEN :startDate AND :endDate)" +
                     "        OR (end_date BETWEEN :startDate AND :endDate)" +

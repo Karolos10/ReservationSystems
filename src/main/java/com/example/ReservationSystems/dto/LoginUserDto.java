@@ -1,15 +1,15 @@
-/*package com.example.ReservationSystems.model;
+package com.example.ReservationSystems.dto;
 
-public class JwtRequest {
+public class LoginUserDto {
 
     private String username;
 
     private String password;
 
-    public JwtRequest() {
+    public LoginUserDto() {
     }
 
-    public JwtRequest(String username, String password) {
+    public LoginUserDto(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -29,4 +29,4 @@ public class JwtRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-}*/
+}
