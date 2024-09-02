@@ -53,7 +53,7 @@ set CONECCTION_BASE=jdbc:mysql://localhost:3306/bookingsystems
 set PASSWORD=123456
 
 Clonar el repositorio
-git clone https://github.com/tu-usuario/reservation-systems.git
+git clone https://github.com/Karolos10/ReservationSystems.git
 
 Navega al directorio del proyecto:
 cd reservation-systems
