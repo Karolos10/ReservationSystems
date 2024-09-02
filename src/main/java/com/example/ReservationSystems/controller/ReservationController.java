@@ -18,6 +18,8 @@ public class ReservationController {
     @GetMapping("/{userId}")
     public List<Reservation> getReservations(@PathVariable("userId") Integer userId) {
         return reservationService.getReservations(userId);
+
+
     }
 
     @PostMapping

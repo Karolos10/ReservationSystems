@@ -42,7 +42,7 @@ public class AuthenticationService {
 
             return userRepository.save(user);
         } else {
-            throw new Exception("El nombre de usuario ya se encuentra registrado");
+            throw new Exception("The user name is already registered");
         }
 
     }

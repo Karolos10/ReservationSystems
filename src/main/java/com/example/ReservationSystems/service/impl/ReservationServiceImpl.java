@@ -21,13 +21,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getReservations(Integer userId) {
-        return reservationRepository.findByUserId(userId);
+        return reservationRepository.findActiveReservationsByUserId(userId);
     }
 
     @Override
     public ReservationDTO saveReservation(ReservationDTO reservationDTO) throws Exception {
         List<Reservation> reservations =
-                reservationRepository.findReservations(
+                reservationRepository.findActiveReservations(
                         reservationDTO.getBusiness().getBusinessId(),
                         reservationDTO.getStartDate(),
                         reservationDTO.getEndDate(),
@@ -41,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
             reservationDTO.setReservationId(reservationEntity.getReservationId());
             return reservationDTO;
         } else {
-            throw new Exception("La reserva se cruza con otra");
+            throw new Exception("The reserve intersects with another");
         }
     }
 
@@ -50,9 +50,11 @@ public class ReservationServiceImpl implements ReservationService {
         Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
         if (optionalReservation.isPresent()) {
             Reservation result = optionalReservation.get();
-            result.setCanceled(true);
-            reservationRepository.save(result);
-            return true;
+            if (!result.isCanceled()) { // Solo permitir cancelar si no está ya cancelada
+                result.setCanceled(true);
+                reservationRepository.save(result);
+                return true;
+            }
         }
         return false;
     }

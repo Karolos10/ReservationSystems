@@ -30,7 +30,11 @@ public class Business {
     public Business() {
     }
 
-    public Business(Double price, Integer businessId, String name, String description, List<Reservation>  reservations) {
+    public Business(Double price,
+                    Integer businessId,
+                    String name,
+                    String description,
+                    List<Reservation>  reservations) {
         this.price = price;
         this.businessId = businessId;
         this.name = name;

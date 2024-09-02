@@ -25,7 +25,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment saveComment(Comment comment) throws Exception {
         Comment commentResult = commentRepository.findByReservationId(comment.getReservation().getReservationId());
         if (commentResult != null) {
-            throw new Exception("Ya se ha calificado la reserva");
+            throw new Exception("The reserve has already been qualified");
         } else {
             commentResult = commentRepository.save(comment);
             return commentResult;

@@ -29,11 +29,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
                     "FROM " +
                     "    bookingsystems.reservations r " +
                     "WHERE " +
-                    "    r.user_id = :userId")
-    List<Reservation> findByUserId(@Param("userId") Integer userId);
+                    "    r.user_id = :userId " +
+                    "    AND r.canceled = false")
+    List<Reservation> findActiveReservationsByUserId(@Param("userId") Integer userId);
 
     @Query(
-            nativeQuery = true, 
+            nativeQuery = true,
             value = "SELECT " +
                     "    reservation_id, " +
                     "    canceled, " +
@@ -56,8 +57,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
                     "    AND (" +
                     "        :startTime IS NULL " +
                     "        OR start_time = :startTime" +
-                    "    )")
-    List<Reservation> findReservations(
+                    "    )" +
+                    "    AND canceled = false")
+    List<Reservation> findActiveReservations(
             @Param("businessId") Integer businessId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
